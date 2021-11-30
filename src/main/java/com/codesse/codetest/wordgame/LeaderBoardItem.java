@@ -1,7 +1,5 @@
 package com.codesse.codetest.wordgame;
 
-import lombok.Data;
-
 public class LeaderBoardItem {
     private String playerName;
     private String word;

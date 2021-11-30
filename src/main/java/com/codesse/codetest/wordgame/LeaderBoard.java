@@ -1,25 +1,34 @@
 package com.codesse.codetest.wordgame;
 
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class LeaderBoard {
-    private final Map<Integer, LeaderBoardItem> positionToLeader = new ConcurrentHashMap<>();
+    private final List<LeaderBoardItem> positions;
 
-    public boolean add(String playerName, String word, int score) {
+    public LeaderBoard() {
+        positions = IntStream.rangeClosed(0, 9).mapToObj(i -> (LeaderBoardItem) null)
+            .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    public synchronized boolean add(String playerName, String word, int score) {
         if (isWordPresent(word)){
             return false;
         }
         final int positionToScore = findPositionToScore(score);
-        moveAllItemsToOnePositionFrom(positionToScore);
-        positionToLeader.put(positionToScore, new LeaderBoardItem(playerName, word, score));
+        if (positionToScore != -1){
+          positions.add(positionToScore, new LeaderBoardItem(playerName, word, score));
+          positions.remove(10);
+        }
         return true;
     }
 
     private int findPositionToScore(int score){
         for (int i = 0; i < 10; i++) {
-            final LeaderBoardItem item = positionToLeader.get(0);
+            final LeaderBoardItem item = positions.get(i);
             if (Objects.isNull(item)){
                 return i;
             }
@@ -27,33 +36,21 @@ public class LeaderBoard {
                 return i;
             }
         }
-        return 11;
-    }
-
-    private void moveAllItemsToOnePositionFrom(Integer fromInclude){
-        //TODO need to change from include
-        for (int i = fromInclude; i >= 0; i--) {
-            if (i + 1 > 10){
-                continue;
-            }
-            LeaderBoardItem item = positionToLeader.get(i);
-            if (Objects.nonNull(item)){
-                positionToLeader.put(i + 1, item);
-            }
-        }
+        return -1;
     }
 
     private boolean isWordPresent(String word) {
-        for (Map.Entry<Integer, LeaderBoardItem> entry : positionToLeader.entrySet()) {
-            if (Objects.equals(entry.getValue().getWord(), word)){
-                return true;
-            }
+      for (LeaderBoardItem position : positions) {
+        if (Objects.nonNull(position) &&
+            Objects.equals(position.getWord(), word)) {
+          return true;
         }
-        return false;
+      }
+      return false;
     }
 
     public String getPlayerNameAtPosition(int position) {
-        final LeaderBoardItem leaderBoardItem = positionToLeader.get(position);
+        final LeaderBoardItem leaderBoardItem = positions.get(position);
         if (Objects.isNull(leaderBoardItem)){
             return null;
         }
@@ -61,7 +58,7 @@ public class LeaderBoard {
     }
 
     public String getWordEntryAtPosition(int position) {
-        final LeaderBoardItem leaderBoardItem = positionToLeader.get(position);
+        final LeaderBoardItem leaderBoardItem = positions.get(position);
         if (Objects.isNull(leaderBoardItem)){
             return null;
         }
@@ -69,7 +66,7 @@ public class LeaderBoard {
     }
 
     public Integer getScoreAtPosition(int position) {
-        final LeaderBoardItem leaderBoardItem = positionToLeader.get(position);
+        final LeaderBoardItem leaderBoardItem = positions.get(position);
         if (Objects.isNull(leaderBoardItem)){
             return null;
         }
