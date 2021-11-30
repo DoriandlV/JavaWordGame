@@ -15,8 +15,7 @@ public class ValidWordsImpl implements ValidWords {
 	public ValidWordsImpl() {
 		try {
 			InputStreamReader reader = new InputStreamReader(
-					this.getClass()
-							.getResourceAsStream("/wordlist.txt"), "utf-8");
+					this.getClass().getResourceAsStream("/wordlist.txt"), "utf-8");
 			BufferedReader in = new BufferedReader(reader);
 			String inputLine;
 			while ((inputLine = in.readLine()) != null) {
