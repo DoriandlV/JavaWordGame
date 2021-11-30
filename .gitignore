@@ -41,6 +41,15 @@ geth.sh
 # Sphinx generated docs
 docs/build
 
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
 # OS X
 .DS_Store
 
