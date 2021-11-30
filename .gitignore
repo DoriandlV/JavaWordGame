@@ -1,4 +1,5 @@
-# Project exclude paths
+# Created by .ignore support plugin (hsz.mobi)
+### Java template
 *.class
 
 # Mobile Tools for Java (J2ME)
@@ -11,7 +12,42 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-/.classpath
-/.project
-/.settings
-/target/
+### Gradle template
+.gradle
+/build
+/out
+*/build/
+*/out/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
+# Work around https://youtrack.jetbrains.com/issue/IDEA-116898
+# gradle/wrapper/gradle-wrapper.properties
+
+.idea
+*.iml
+*.ipr
+*.iws
+
+geth.sh
+
+# Sphinx generated docs
+docs/build
+
+# OS X
+.DS_Store
+
+# VScode
+**/.classpath
+**/.project
+**/.settings
+**/bin
+
+web3j.asc
