@@ -1,6 +1,11 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Java template
 *.class
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
